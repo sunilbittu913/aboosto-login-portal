@@ -711,9 +711,24 @@ const Riders = () => {
                             name="profilePhotoUrl"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel>Profile Photo URL</FormLabel>
+                                <FormLabel>Profile Photo</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="https://example.com/photo.jpg" {...field} />
+                                  <div className="space-y-2">
+                                    <Input
+                                      type="file"
+                                      accept="image/*"
+                                      onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                          field.onChange(URL.createObjectURL(file));
+                                        }
+                                      }}
+                                      className="cursor-pointer"
+                                    />
+                                    {field.value && (
+                                      <p className="text-sm text-muted-foreground">✓ File selected</p>
+                                    )}
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -756,9 +771,24 @@ const Riders = () => {
                             name="kycDocumentPhotoUrl"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel>KYC Document Photo URL</FormLabel>
+                                <FormLabel>KYC Document Photo</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="https://example.com/kyc-doc.jpg" {...field} />
+                                  <div className="space-y-2">
+                                    <Input
+                                      type="file"
+                                      accept="image/*"
+                                      onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                          field.onChange(URL.createObjectURL(file));
+                                        }
+                                      }}
+                                      className="cursor-pointer"
+                                    />
+                                    {field.value && (
+                                      <p className="text-sm text-muted-foreground">✓ File selected</p>
+                                    )}
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -1101,9 +1131,24 @@ const Riders = () => {
                     name="profilePhotoUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Profile Photo URL</FormLabel>
+                        <FormLabel>Profile Photo</FormLabel>
                         <FormControl>
-                          <Input placeholder="https://example.com/photo.jpg" {...field} />
+                          <div className="space-y-2">
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  field.onChange(URL.createObjectURL(file));
+                                }
+                              }}
+                              className="cursor-pointer"
+                            />
+                            {field.value && (
+                              <p className="text-sm text-muted-foreground">✓ File selected</p>
+                            )}
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1146,9 +1191,24 @@ const Riders = () => {
                     name="kycDocumentPhotoUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>KYC Document Photo URL</FormLabel>
+                        <FormLabel>KYC Document Photo</FormLabel>
                         <FormControl>
-                          <Input placeholder="https://example.com/kyc-doc.jpg" {...field} />
+                          <div className="space-y-2">
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  field.onChange(URL.createObjectURL(file));
+                                }
+                              }}
+                              className="cursor-pointer"
+                            />
+                            {field.value && (
+                              <p className="text-sm text-muted-foreground">✓ File selected</p>
+                            )}
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
