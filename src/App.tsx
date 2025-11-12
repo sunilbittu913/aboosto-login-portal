@@ -16,6 +16,14 @@ import Users from "./pages/admin/Users";
 import Roles from "./pages/admin/Roles";
 import Permissions from "./pages/admin/Permissions";
 import Riders from "./pages/admin/Riders";
+import Country from "./pages/config/Country";
+import State from "./pages/config/State";
+import City from "./pages/config/City";
+import BasePricing from "./pages/config/BasePricing";
+import SurgePricing from "./pages/config/SurgePricing";
+import Promotions from "./pages/config/Promotions";
+import Referrals from "./pages/config/Referrals";
+import VehicleCategory from "./pages/config/VehicleCategory";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +48,14 @@ const App = () => (
           <Route path="/admin/roles" element={<Roles />} />
           <Route path="/admin/permissions" element={<Permissions />} />
           <Route path="/admin/riders" element={<Riders />} />
+          <Route path="/config/country" element={<Country />} />
+          <Route path="/config/state" element={<State />} />
+          <Route path="/config/city" element={<City />} />
+          <Route path="/config/base-pricing" element={<BasePricing />} />
+          <Route path="/config/surge-pricing" element={<SurgePricing />} />
+          <Route path="/config/promotions" element={<Promotions />} />
+          <Route path="/config/referrals" element={<Referrals />} />
+          <Route path="/config/vehicle-category" element={<VehicleCategory />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
