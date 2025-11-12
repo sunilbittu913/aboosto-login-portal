@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { UserProfile } from "@/components/UserProfile";
 import { 
   ArrowLeft, 
   Truck, 
@@ -153,7 +154,10 @@ const DriverDetails = () => {
               <p className="text-sm text-muted-foreground">{driverData.id}</p>
             </div>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <UserProfile />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 

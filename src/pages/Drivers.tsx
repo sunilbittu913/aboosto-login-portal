@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { UserProfile } from "@/components/UserProfile";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -133,7 +134,10 @@ const Drivers = () => {
               Driver Management
             </h1>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <UserProfile />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 

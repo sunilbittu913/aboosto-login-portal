@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { UserProfile } from "@/components/UserProfile";
 import { StatsCards } from "@/components/dashboard/StatsCards";
 import { VehicleCards } from "@/components/dashboard/VehicleCards";
 import { VehiclesTable } from "@/components/dashboard/VehiclesTable";
@@ -41,6 +42,7 @@ const Dashboard = () => {
               <Users className="h-5 w-5" />
               <span className="hidden sm:inline">Drivers</span>
             </Button>
+            <UserProfile />
             <ThemeToggle />
             <Button
               variant="ghost"
