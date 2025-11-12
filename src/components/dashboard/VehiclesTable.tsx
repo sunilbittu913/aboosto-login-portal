@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -113,6 +114,8 @@ const getStatusVariant = (status: string) => {
 };
 
 export const VehiclesTable = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="rounded-lg border border-border/50 bg-card shadow-sm">
       <Table>
@@ -168,8 +171,10 @@ export const VehiclesTable = () => {
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>View Details</DropdownMenuItem>
+                  <DropdownMenuContent align="end" className="bg-card border-border z-50">
+                    <DropdownMenuItem onClick={() => navigate(`/vehicle/${vehicle.id}`)}>
+                      View Details
+                    </DropdownMenuItem>
                     <DropdownMenuItem>Track Location</DropdownMenuItem>
                     <DropdownMenuItem>Contact Driver</DropdownMenuItem>
                     <DropdownMenuItem>Schedule Maintenance</DropdownMenuItem>

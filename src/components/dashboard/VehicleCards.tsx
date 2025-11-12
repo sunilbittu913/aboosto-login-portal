@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Gauge, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { MapPin, Gauge, User, Eye } from "lucide-react";
 
 const vehicles = [
   {
@@ -86,6 +88,8 @@ const getStatusBadge = (status: string) => {
 };
 
 export const VehicleCards = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {vehicles.map((vehicle) => (
@@ -134,6 +138,13 @@ export const VehicleCards = () => {
                 />
               </div>
             </div>
+            <Button 
+              onClick={() => navigate(`/vehicle/${vehicle.id}`)}
+              className="w-full mt-4 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity"
+            >
+              <Eye className="h-4 w-4 mr-2" />
+              View Details
+            </Button>
           </CardContent>
         </Card>
       ))}
