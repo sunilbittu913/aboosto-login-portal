@@ -1,14 +1,10 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { useParams } from "react-router-dom";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { UserProfile } from "@/components/UserProfile";
 import { 
-  ArrowLeft, 
-  Truck, 
   MapPin, 
   Gauge, 
   Fuel, 
@@ -16,7 +12,8 @@ import {
   User,
   Wrench,
   TrendingUp,
-  Clock
+  Clock,
+  Truck
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -65,39 +62,13 @@ const routeHistory = [
 ];
 
 const VehicleDetails = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/dashboard")}
-              className="rounded-full"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <Truck className="h-8 w-8 text-primary" />
-            <div>
-              <h1 className="text-xl font-bold">{vehicleData.name}</h1>
-              <p className="text-sm text-muted-foreground">{vehicleData.id}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <UserProfile />
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container px-4 py-8">
+    <DashboardLayout>
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
+        <div className="container px-4 py-8">
         {/* Quick Stats */}
         <div className="grid gap-4 md:grid-cols-4 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <Card>
@@ -404,8 +375,9 @@ const VehicleDetails = () => {
             </TabsContent>
           </Tabs>
         </div>
-      </main>
-    </div>
+        </div>
+      </div>
+    </DashboardLayout>
   );
 };
 
