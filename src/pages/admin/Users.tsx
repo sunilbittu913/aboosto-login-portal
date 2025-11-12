@@ -32,6 +32,21 @@ const USER_ROLES = {
   USER: "ROLE_USER"
 } as const;
 
+// Type for user data
+type UserData = {
+  id: number;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  contactName: string;
+  email: string;
+  contactNumber: string;
+  roles: string[];
+  lastLoginDate: string;
+  isGoogleAccount: boolean;
+  activated: boolean;
+};
+
 // Validation schema for adding a new user
 const addUserSchema = z.object({
   userName: z.string()
@@ -69,10 +84,51 @@ const addUserSchema = z.object({
   activated: z.boolean().default(true),
 });
 
+// Validation schema for editing a user (password is optional)
+const editUserSchema = z.object({
+  userName: z.string()
+    .trim()
+    .min(3, { message: "Username must be at least 3 characters" })
+    .max(50, { message: "Username must be less than 50 characters" })
+    .regex(/^[a-zA-Z0-9_]+$/, { message: "Username can only contain letters, numbers, and underscores" }),
+  password: z.string()
+    .optional()
+    .refine((val) => !val || val.length >= 8, {
+      message: "Password must be at least 8 characters if provided"
+    })
+    .refine((val) => !val || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(val), {
+      message: "Password must contain at least one uppercase letter, one lowercase letter, and one number if provided"
+    }),
+  firstName: z.string()
+    .trim()
+    .min(2, { message: "First name must be at least 2 characters" })
+    .max(50, { message: "First name must be less than 50 characters" }),
+  lastName: z.string()
+    .trim()
+    .min(2, { message: "Last name must be at least 2 characters" })
+    .max(50, { message: "Last name must be less than 50 characters" }),
+  contactName: z.string()
+    .trim()
+    .min(2, { message: "Contact name must be at least 2 characters" })
+    .max(100, { message: "Contact name must be less than 100 characters" }),
+  email: z.string()
+    .trim()
+    .email({ message: "Invalid email address" })
+    .max(255, { message: "Email must be less than 255 characters" }),
+  contactNumber: z.string()
+    .trim()
+    .min(10, { message: "Contact number must be at least 10 digits" })
+    .max(20, { message: "Contact number must be less than 20 characters" })
+    .regex(/^[+\d\s()-]+$/, { message: "Invalid phone number format" }),
+  roles: z.array(z.string()).min(1, { message: "At least one role must be selected" }),
+  activated: z.boolean().default(true),
+});
+
 type AddUserFormValues = z.infer<typeof addUserSchema>;
+type EditUserFormValues = z.infer<typeof editUserSchema>;
 
 // Mock data matching AppUserVO structure
-const usersData = [
+const usersData: UserData[] = [
   { 
     id: 1, 
     userName: "superadmin",
@@ -130,11 +186,29 @@ const usersData = [
 const Users = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const { toast } = useToast();
 
   // Add user form
   const addUserForm = useForm<AddUserFormValues>({
     resolver: zodResolver(addUserSchema),
+    defaultValues: {
+      userName: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      contactName: "",
+      email: "",
+      contactNumber: "",
+      roles: [],
+      activated: true,
+    },
+  });
+
+  // Edit user form
+  const editUserForm = useForm<EditUserFormValues>({
+    resolver: zodResolver(editUserSchema),
     defaultValues: {
       userName: "",
       password: "",
@@ -157,6 +231,34 @@ const Users = () => {
     });
     setIsAddDialogOpen(false);
     addUserForm.reset();
+  };
+
+  const onEditUserSubmit = (data: EditUserFormValues) => {
+    // In production, this would call an API to update the user
+    console.log("Updating user:", data);
+    toast({
+      title: "User Updated",
+      description: `User ${data.userName} has been successfully updated.`,
+    });
+    setIsEditDialogOpen(false);
+    setSelectedUser(null);
+    editUserForm.reset();
+  };
+
+  const handleEditUser = (user: UserData) => {
+    setSelectedUser(user);
+    editUserForm.reset({
+      userName: user.userName,
+      password: "",
+      firstName: user.firstName,
+      lastName: user.lastName,
+      contactName: user.contactName,
+      email: user.email,
+      contactNumber: user.contactNumber,
+      roles: user.roles,
+      activated: user.activated,
+    });
+    setIsEditDialogOpen(true);
   };
 
   const getInitials = (firstName: string, lastName: string) => {
@@ -544,7 +646,11 @@ const Users = () => {
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => handleEditUser(user)}
+                        >
                           <Edit className="h-4 w-4 mr-2" />
                           Edit
                         </Button>
@@ -555,6 +661,256 @@ const Users = () => {
               </Table>
             </CardContent>
           </Card>
+
+          {/* Edit User Dialog */}
+          <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-background">
+              <DialogHeader>
+                <DialogTitle>Edit User</DialogTitle>
+                <DialogDescription>
+                  Update user account details and roles. Leave password blank to keep current password.
+                </DialogDescription>
+              </DialogHeader>
+              
+              <Form {...editUserForm}>
+                <form onSubmit={editUserForm.handleSubmit(onEditUserSubmit)} className="space-y-6">
+                  {/* Username */}
+                  <FormField
+                    control={editUserForm.control}
+                    name="userName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username *</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input placeholder="username" className="pl-10" {...field} />
+                          </div>
+                        </FormControl>
+                        <FormDescription>
+                          Username can only contain letters, numbers, and underscores
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Password (Optional) */}
+                  <FormField
+                    control={editUserForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>New Password (Optional)</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input type="password" placeholder="Leave blank to keep current password" className="pl-10" {...field} />
+                          </div>
+                        </FormControl>
+                        <FormDescription>
+                          Only fill this if you want to change the password
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* First Name and Last Name */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={editUserForm.control}
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>First Name *</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input placeholder="John" className="pl-10" {...field} />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={editUserForm.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last Name *</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input placeholder="Doe" className="pl-10" {...field} />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  {/* Contact Name */}
+                  <FormField
+                    control={editUserForm.control}
+                    name="contactName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Contact Name *</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input placeholder="John Doe" className="pl-10" {...field} />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Email and Contact Number */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={editUserForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email Address *</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input type="email" placeholder="john@example.com" className="pl-10" {...field} />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={editUserForm.control}
+                      name="contactNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Contact Number *</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input placeholder="+234 801 234 5678" className="pl-10" {...field} />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  {/* Roles Selection */}
+                  <FormField
+                    control={editUserForm.control}
+                    name="roles"
+                    render={() => (
+                      <FormItem>
+                        <div className="mb-4">
+                          <FormLabel>User Roles *</FormLabel>
+                          <FormDescription>
+                            Select one or more roles for this user
+                          </FormDescription>
+                        </div>
+                        <div className="space-y-3">
+                          {Object.entries(USER_ROLES).map(([key, value]) => (
+                            <FormField
+                              key={value}
+                              control={editUserForm.control}
+                              name="roles"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem
+                                    key={value}
+                                    className="flex flex-row items-start space-x-3 space-y-0 rounded-md border border-border p-4 bg-muted/20"
+                                  >
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(value)}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([...field.value, value])
+                                            : field.onChange(
+                                                field.value?.filter(
+                                                  (val) => val !== value
+                                                )
+                                              )
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                      <FormLabel className="flex items-center gap-2 cursor-pointer">
+                                        <Shield className="h-4 w-4 text-primary" />
+                                        <span className="font-medium">{key.replace("_", " ")}</span>
+                                      </FormLabel>
+                                      <FormDescription>
+                                        {value === USER_ROLES.SUPER_ADMIN && "Full system access with all permissions"}
+                                        {value === USER_ROLES.ADMIN && "Administrative access with most permissions"}
+                                        {value === USER_ROLES.USER && "Standard user access with limited permissions"}
+                                      </FormDescription>
+                                    </div>
+                                  </FormItem>
+                                )
+                              }}
+                            />
+                          ))}
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Activated Status */}
+                  <FormField
+                    control={editUserForm.control}
+                    name="activated"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-md border border-border p-4 bg-muted/20">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-base">Account Status</FormLabel>
+                          <FormDescription>
+                            Enable or disable this user account
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <DialogFooter>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        setIsEditDialogOpen(false);
+                        setSelectedUser(null);
+                        editUserForm.reset();
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" className="bg-gradient-to-r from-primary to-secondary">
+                      <Edit className="h-4 w-4 mr-2" />
+                      Update User
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </Form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </DashboardLayout>
