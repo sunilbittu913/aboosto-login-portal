@@ -42,17 +42,33 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // TODO: Replace with actual API call to http://123.176.35.22:8081
-      // Example:
-      // const response = await fetch('http://123.176.35.22:8081/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ username, password }),
-      // });
-      // const data = await response.json();
+      const response = await fetch('http://123.176.35.22:8082/api/admin/login', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'accept': '*/*'
+        },
+        body: JSON.stringify({ 
+          userName: username, 
+          password: password 
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
       
-      // Simulated API call for now
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Store authentication token if provided
+      if (data.token) {
+        localStorage.setItem('authToken', data.token);
+      }
+      
+      // Store user data if provided
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+      }
       
       toast({
         title: "Login Successful",
@@ -64,7 +80,7 @@ const Login = () => {
     } catch (error) {
       toast({
         title: "Login Failed",
-        description: "Invalid username or password. Please try again.",
+        description: error instanceof Error ? error.message : "Invalid username or password. Please try again.",
         variant: "destructive",
       });
     } finally {
