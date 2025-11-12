@@ -12,6 +12,10 @@ import VehicleDetails from "./pages/VehicleDetails";
 import Drivers from "./pages/Drivers";
 import DriverDetails from "./pages/DriverDetails";
 import Profile from "./pages/Profile";
+import Users from "./pages/admin/Users";
+import Roles from "./pages/admin/Roles";
+import Permissions from "./pages/admin/Permissions";
+import Riders from "./pages/admin/Riders";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +36,10 @@ const App = () => (
           <Route path="/drivers" element={<Drivers />} />
           <Route path="/driver/:id" element={<DriverDetails />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/roles" element={<Roles />} />
+          <Route path="/admin/permissions" element={<Permissions />} />
+          <Route path="/admin/riders" element={<Riders />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
