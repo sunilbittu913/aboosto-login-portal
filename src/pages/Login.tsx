@@ -1,0 +1,157 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  username: z.string().min(1, "Username is required").max(50, "Username is too long"),
+  password: z.string().min(1, "Password is required"),
+});
+
+const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+
+    // Validate inputs
+    const result = loginSchema.safeParse({ username, password });
+    if (!result.success) {
+      const fieldErrors: { username?: string; password?: string } = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0] === "username") fieldErrors.username = err.message;
+        if (err.path[0] === "password") fieldErrors.password = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // TODO: Replace with actual API call to http://123.176.35.22:8081
+      // Example:
+      // const response = await fetch('http://123.176.35.22:8081/api/auth/login', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ username, password }),
+      // });
+      // const data = await response.json();
+      
+      // Simulated API call for now
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Login Successful",
+        description: "Welcome back to Aboosto!",
+      });
+      
+      // Navigate to dashboard or home page
+      navigate("/");
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: "Invalid username or password. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-muted/30 to-background">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
+            Aboosto
+          </h1>
+          <p className="text-muted-foreground">Welcome back! Please login to continue.</p>
+        </div>
+
+        <Card className="shadow-lg border-border/50 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-6 duration-700">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
+            <CardDescription>Enter your credentials to access your account</CardDescription>
+          </CardHeader>
+          <form onSubmit={handleSubmit}>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className={errors.username ? "border-destructive" : ""}
+                  disabled={isLoading}
+                />
+                {errors.username && (
+                  <p className="text-sm text-destructive">{errors.username}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={errors.password ? "border-destructive" : ""}
+                  disabled={isLoading}
+                />
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password}</p>
+                )}
+              </div>
+              <div className="flex justify-end">
+                <Button
+                  type="button"
+                  variant="link"
+                  className="px-0 text-primary hover:text-primary/80"
+                  onClick={() => navigate("/forgot-password")}
+                >
+                  Forgot password?
+                </Button>
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-col space-y-4">
+              <Button
+                type="submit"
+                className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity shadow-md"
+                disabled={isLoading}
+              >
+                {isLoading ? "Signing in..." : "Sign In"}
+              </Button>
+              <div className="text-center text-sm text-muted-foreground">
+                Don't have an account?{" "}
+                <Button
+                  type="button"
+                  variant="link"
+                  className="px-1 text-primary hover:text-primary/80 font-semibold"
+                  onClick={() => navigate("/signup")}
+                >
+                  Sign up
+                </Button>
+              </div>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
