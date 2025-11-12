@@ -84,6 +84,10 @@ const riderSchema = z.object({
   otpVerified: z.boolean().default(false),
   locationAccessPermission: z.boolean().default(false),
   promotionalConsent: z.boolean().default(false),
+  profilePhotoUrl: z.string().optional(),
+  kycIdType: z.string().optional(),
+  kycIdNumber: z.string().optional(),
+  kycDocumentPhotoUrl: z.string().optional(),
 });
 
 type RiderFormValues = z.infer<typeof riderSchema>;
@@ -219,6 +223,10 @@ const Riders = () => {
       otpVerified: false,
       locationAccessPermission: false,
       promotionalConsent: false,
+      profilePhotoUrl: "",
+      kycIdType: "",
+      kycIdNumber: "",
+      kycDocumentPhotoUrl: "",
     },
   });
 
@@ -240,6 +248,10 @@ const Riders = () => {
       otpVerified: false,
       locationAccessPermission: false,
       promotionalConsent: false,
+      profilePhotoUrl: "",
+      kycIdType: "",
+      kycIdNumber: "",
+      kycDocumentPhotoUrl: "",
     },
   });
 
@@ -281,6 +293,10 @@ const Riders = () => {
       otpVerified: rider.otpVerified,
       locationAccessPermission: rider.locationAccessPermission,
       promotionalConsent: rider.promotionalConsent,
+      profilePhotoUrl: rider.profilePhotoUrl,
+      kycIdType: rider.kycIdType,
+      kycIdNumber: rider.kycIdNumber,
+      kycDocumentPhotoUrl: rider.kycDocumentPhotoUrl,
     });
     setIsEditDialogOpen(true);
   };
@@ -684,6 +700,73 @@ const Riders = () => {
                         )}
                       />
 
+                      {/* Document Upload Section */}
+                      <div className="space-y-4 pt-4 border-t">
+                        <h3 className="text-lg font-semibold">Profile & KYC Documents</h3>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {/* Profile Photo */}
+                          <FormField
+                            control={addRiderForm.control}
+                            name="profilePhotoUrl"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Profile Photo URL</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="https://example.com/photo.jpg" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          {/* KYC ID Type */}
+                          <FormField
+                            control={addRiderForm.control}
+                            name="kycIdType"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>KYC ID Type</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="Passport, Driving License, National ID" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          {/* KYC ID Number */}
+                          <FormField
+                            control={addRiderForm.control}
+                            name="kycIdNumber"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>KYC ID Number</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="ID number" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          {/* KYC Document Photo */}
+                          <FormField
+                            control={addRiderForm.control}
+                            name="kycDocumentPhotoUrl"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>KYC Document Photo URL</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="https://example.com/kyc-doc.jpg" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+
                       {/* Checkboxes */}
                       <div className="space-y-3 pt-4 border-t">
                         <FormField
@@ -1006,6 +1089,73 @@ const Riders = () => {
                   </FormItem>
                 )}
               />
+
+              {/* Document Upload Section */}
+              <div className="space-y-4 pt-4 border-t">
+                <h3 className="text-lg font-semibold">Profile & KYC Documents</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Profile Photo */}
+                  <FormField
+                    control={editRiderForm.control}
+                    name="profilePhotoUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Profile Photo URL</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://example.com/photo.jpg" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* KYC ID Type */}
+                  <FormField
+                    control={editRiderForm.control}
+                    name="kycIdType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>KYC ID Type</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Passport, Driving License, National ID" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* KYC ID Number */}
+                  <FormField
+                    control={editRiderForm.control}
+                    name="kycIdNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>KYC ID Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="ID number" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* KYC Document Photo */}
+                  <FormField
+                    control={editRiderForm.control}
+                    name="kycDocumentPhotoUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>KYC Document Photo URL</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://example.com/kyc-doc.jpg" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
 
               {/* Checkboxes */}
               <div className="space-y-3 pt-4 border-t">
