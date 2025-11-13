@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Truck } from "lucide-react";
+import { Truck, Car, MapPin, Route } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -32,6 +32,49 @@ const Index = () => {
           backgroundSize: 'var(--pattern-size-grid)'
         }}
       />
+      
+      {/* Animated Cars */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Car 1 - Moving right */}
+        <div className="absolute top-1/4 left-0 animate-[slide-in-right_15s_linear_infinite]">
+          <Car className="h-8 w-8 text-primary/30" />
+        </div>
+        
+        {/* Car 2 - Moving right with delay */}
+        <div className="absolute top-1/3 left-0 animate-[slide-in-right_20s_linear_infinite] delay-700">
+          <Truck className="h-10 w-10 text-secondary/30 rotate-3" />
+        </div>
+        
+        {/* Car 3 - Moving right with longer delay */}
+        <div className="absolute top-2/3 left-0 animate-[slide-in-right_18s_linear_infinite] delay-1000">
+          <Car className="h-7 w-7 text-accent/30 -rotate-2" />
+        </div>
+        
+        {/* Route Path Illustration */}
+        <svg className="absolute top-1/2 left-1/4 w-1/2 h-32 opacity-20" viewBox="0 0 400 100">
+          <path
+            d="M 0 50 Q 100 20, 200 50 T 400 50"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray="8 4"
+            className="text-primary animate-pulse"
+          />
+        </svg>
+        
+        {/* Map Pins */}
+        <div className="absolute top-1/4 right-1/4 animate-pulse">
+          <MapPin className="h-6 w-6 text-primary/40" />
+        </div>
+        <div className="absolute bottom-1/3 left-1/3 animate-pulse delay-500">
+          <MapPin className="h-6 w-6 text-secondary/40" />
+        </div>
+        
+        {/* Route Icon */}
+        <div className="absolute bottom-1/4 right-1/3 animate-bounce delay-300">
+          <Route className="h-8 w-8 text-accent/30" />
+        </div>
+      </div>
       
       <div className="absolute top-4 right-4 z-10">
         <ThemeToggle />
