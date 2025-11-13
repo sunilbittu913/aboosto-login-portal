@@ -3,8 +3,9 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import { AppSidebar } from "@/components/AppSidebar";
 import { UserProfile } from "@/components/UserProfile";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Truck } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import aboostoLogoBlue from "@/assets/aboosto-logo-blue.svg";
+import aboostoLogoWhite from "@/assets/aboosto-logo-white.svg";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -21,10 +22,16 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="h-6" />
             <div className="flex items-center gap-2">
-              <Truck className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Aboosto Fleet
-              </h1>
+              <img 
+                src={aboostoLogoBlue} 
+                alt="Aboosto Fleet" 
+                className="h-8 w-auto dark:hidden"
+              />
+              <img 
+                src={aboostoLogoWhite} 
+                alt="Aboosto Fleet" 
+                className="h-8 w-auto hidden dark:block"
+              />
             </div>
             <div className="ml-auto flex items-center gap-2">
               <UserProfile />

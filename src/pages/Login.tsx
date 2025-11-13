@@ -9,6 +9,8 @@ import { buildApiUrl } from "@/lib/api";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
+import aboostoLogoBlue from "@/assets/aboosto-logo-blue.svg";
+import aboostoLogoWhite from "@/assets/aboosto-logo-white.svg";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required").max(50, "Username is too long"),
@@ -96,9 +98,18 @@ const Login = () => {
       </div>
       <div className="w-full max-w-md">
         <div className="text-center mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
-            Aboosto Fleet
-          </h1>
+          <div className="flex justify-center mb-4">
+            <img 
+              src={aboostoLogoBlue} 
+              alt="Aboosto" 
+              className="h-16 w-auto dark:hidden"
+            />
+            <img 
+              src={aboostoLogoWhite} 
+              alt="Aboosto" 
+              className="h-16 w-auto hidden dark:block"
+            />
+          </div>
           <p className="text-muted-foreground">Welcome back to Fleet Operations</p>
         </div>
 

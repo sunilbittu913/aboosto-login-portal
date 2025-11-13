@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Truck, Car, MapPin, Route, Navigation, Users, BarChart3, Shield, Clock, Zap } from "lucide-react";
+import aboostoLogoBlue from "@/assets/aboosto-logo-blue.svg";
+import aboostoLogoWhite from "@/assets/aboosto-logo-white.svg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -81,10 +83,19 @@ const Index = () => {
         <ThemeToggle />
       </div>
       <div className="relative z-10 text-center space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 px-4">
-        <div className="flex items-center justify-center gap-3 mb-2">
-          <Truck className="h-12 w-12 text-primary" />
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Aboosto Fleet
+        <div className="flex flex-col items-center justify-center gap-4 mb-2">
+          <img 
+            src={aboostoLogoBlue} 
+            alt="Aboosto" 
+            className="h-20 w-auto dark:hidden"
+          />
+          <img 
+            src={aboostoLogoWhite} 
+            alt="Aboosto" 
+            className="h-20 w-auto hidden dark:block"
+          />
+          <h1 className="text-4xl font-bold text-foreground">
+            Fleet Operations Management
           </h1>
         </div>
         <p className="text-xl text-muted-foreground max-w-md mx-auto">
@@ -191,9 +202,17 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
               {/* Company Info */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Truck className="h-6 w-6 text-primary" />
-                  <h3 className="text-lg font-bold text-foreground">Aboosto Fleet</h3>
+                <div className="flex items-center gap-2 mb-4">
+                  <img 
+                    src={aboostoLogoBlue} 
+                    alt="Aboosto" 
+                    className="h-6 w-auto dark:hidden"
+                  />
+                  <img 
+                    src={aboostoLogoWhite} 
+                    alt="Aboosto" 
+                    className="h-6 w-auto hidden dark:block"
+                  />
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Leading fleet management solution in Malaysia, empowering businesses with smart transportation technology.
