@@ -174,6 +174,21 @@ const Login = () => {
               >
                 {isLoading ? "Signing in..." : "Sign In"}
               </Button>
+              
+              {/* Temporary Bypass Button */}
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  localStorage.setItem('authToken', 'temp-bypass-token');
+                  localStorage.setItem('user', JSON.stringify({ username: 'Admin User' }));
+                  navigate("/dashboard");
+                }}
+              >
+                Skip Login (Temporary)
+              </Button>
+              
               <div className="text-center text-sm text-muted-foreground">
                 Don't have an account?{" "}
                 <Button
