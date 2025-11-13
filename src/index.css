@@ -17,16 +17,16 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 200 95% 42%;
+    --primary: 215 99% 49%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 190 80% 50%;
+    --secondary: 215 85% 60%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 30% 92%;
     --muted-foreground: 215 15% 50%;
 
-    --accent: 195 85% 55%;
+    --accent: 215 95% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -34,25 +34,25 @@ All colors MUST be HSL.
 
     --border: 210 25% 88%;
     --input: 210 25% 88%;
-    --ring: 200 95% 42%;
+    --ring: 215 99% 49%;
 
     --radius: 0.75rem;
     
     /* Brand gradient */
-    --gradient-primary: linear-gradient(135deg, hsl(200 95% 42%), hsl(190 80% 50%));
-    --gradient-subtle: linear-gradient(180deg, hsl(210 40% 98%), hsl(205 50% 96%));
+    --gradient-primary: linear-gradient(135deg, hsl(215 99% 49%), hsl(215 85% 60%));
+    --gradient-subtle: linear-gradient(180deg, hsl(210 40% 98%), hsl(215 50% 96%));
     
     /* Shadows */
-    --shadow-soft: 0 4px 20px -2px hsl(200 95% 42% / 0.15);
-    --shadow-medium: 0 8px 30px -4px hsl(200 95% 42% / 0.2);
+    --shadow-soft: 0 4px 20px -2px hsl(215 99% 49% / 0.15);
+    --shadow-medium: 0 8px 30px -4px hsl(215 99% 49% / 0.2);
     
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
     /* Textured patterns */
-    --pattern-dots: radial-gradient(circle, hsl(200 95% 42% / 0.05) 1px, transparent 1px);
-    --pattern-grid: linear-gradient(hsl(200 95% 42% / 0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, hsl(200 95% 42% / 0.03) 1px, transparent 1px);
+    --pattern-dots: radial-gradient(circle, hsl(215 99% 49% / 0.05) 1px, transparent 1px);
+    --pattern-grid: linear-gradient(hsl(215 99% 49% / 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, hsl(215 99% 49% / 0.03) 1px, transparent 1px);
     --pattern-size-dots: 24px 24px;
     --pattern-size-grid: 40px 40px;
 
@@ -83,16 +83,16 @@ All colors MUST be HSL.
     --popover: 215 28% 12%;
     --popover-foreground: 210 30% 96%;
 
-    --primary: 200 95% 45%;
+    --primary: 215 99% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 190 80% 48%;
+    --secondary: 215 85% 65%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 215 25% 18%;
     --muted-foreground: 215 15% 65%;
 
-    --accent: 195 85% 52%;
+    --accent: 215 95% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 50%;
@@ -100,17 +100,17 @@ All colors MUST be HSL.
 
     --border: 215 20% 20%;
     --input: 215 20% 20%;
-    --ring: 200 95% 45%;
+    --ring: 215 99% 55%;
     
-    --gradient-primary: linear-gradient(135deg, hsl(200 95% 45%), hsl(190 80% 48%));
+    --gradient-primary: linear-gradient(135deg, hsl(215 99% 55%), hsl(215 85% 65%));
     --gradient-subtle: linear-gradient(180deg, hsl(215 30% 8%), hsl(215 28% 12%));
     
-    --shadow-soft: 0 4px 20px -2px hsl(200 95% 45% / 0.3);
-    --shadow-medium: 0 8px 30px -4px hsl(200 95% 45% / 0.4);
+    --shadow-soft: 0 4px 20px -2px hsl(215 99% 55% / 0.3);
+    --shadow-medium: 0 8px 30px -4px hsl(215 99% 55% / 0.4);
     
-    --pattern-dots: radial-gradient(circle, hsl(200 95% 45% / 0.08) 1px, transparent 1px);
-    --pattern-grid: linear-gradient(hsl(200 95% 45% / 0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, hsl(200 95% 45% / 0.05) 1px, transparent 1px);
+    --pattern-dots: radial-gradient(circle, hsl(215 99% 55% / 0.08) 1px, transparent 1px);
+    --pattern-grid: linear-gradient(hsl(215 99% 55% / 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, hsl(215 99% 55% / 0.05) 1px, transparent 1px);
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
